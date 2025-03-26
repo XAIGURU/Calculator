@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multi-Calculator</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            background: linear-gradient(135deg, #ff758c, #ff7eb3, #ff4081);
+            color: white;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: auto;
+        }
+
+        select, input, button {
+            margin: 10px;
+            padding: 15px;
+            width: 80%;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            transition: 0.3s ease-in-out;
+        }
+
+        select {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            backdrop-filter: blur(10px);
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        input {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-bottom: 2px solid white;
+            text-align: center;
+        }
+
+        button {
+            background: #ff1e63;
+            color: white;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease-in-out;
+        }
+
+        button:hover {
+            background: #ff4081;
+            transform: scale(1.05);
+        }
+
+        .calculator {
+            display: none;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            padding: 20px;
+            margin-top: 20px;
+            border-radius: 15px;
+            box-shadow: 0px 5px 20px rgba(0,0,0,0.3);
+            width: 90%;
+            max-width: 500px;
+        }
+
+        h2 {
+            font-weight: 600;
+            font-size: 28px;
+        }
+
+        h3 {
+            font-weight: 600;
+            font-size: 22px;
+            color: white;
+        }
+
+        p {
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h2>🔥 Multi-Calculator 🔥</h2>
+    <select id="calcSelector" onchange="showCalculator()">
+        <option value="">✨ Select Calculator ✨</option>
+        <option value="simple">🔢 Simple Calculator</option>
+        <option value="interest">🏦 Bank Interest Rate</option>
+        <option value="fd">💰 FD Calculator</option>
+        <option value="sip">📈 SIP Calculator</option>
+        <option value="numerology">🔮 Numerology Calculator</option>
+    </select>
+
+    <!-- Simple Calculator -->
+    <div id="simple" class="calculator">
+        <h3>🔢 Simple Calculator</h3>
+        <input type="text" id="expression" placeholder="Enter calculation (e.g., 45+34-12*2)">
+        <button onclick="calculateExpression()">Calculate</button>
+        <p id="simpleResult"></p>
+    </div>
+
+    <!-- Bank Interest Rate Calculator -->
+    <div id="interest" class="calculator">
+        <h3>🏦 Bank Interest Rate Calculator</h3>
+        <input type="number" id="principal" placeholder="Enter principal amount">
+        <input type="number" id="rate" placeholder="Enter annual interest rate (%)">
+        <input type="number" id="time" placeholder="Enter time (years)">
+        <button onclick="calculateInterest()">Calculate Interest</button>
+        <p id="interestResult"></p>
+    </div>
+
+    <!-- FD Calculator -->
+    <div id="fd" class="calculator">
+        <h3>💰 Fixed Deposit Calculator</h3>
+        <input type="number" id="fdAmount" placeholder="Enter deposit amount">
+        <input type="number" id="fdRate" placeholder="Enter interest rate (%)">
+        <input type="number" id="fdTime" placeholder="Enter time (years)">
+        <button onclick="calculateFD()">Calculate FD</button>
+        <p id="fdResult"></p>
+    </div>
+
+    <!-- SIP Calculator -->
+    <div id="sip" class="calculator">
+        <h3>📈 SIP Calculator</h3>
+        <input type="number" id="sipAmount" placeholder="Enter monthly investment amount">
+        <input type="number" id="sipRate" placeholder="Enter expected return rate (%)">
+        <input type="number" id="sipTime" placeholder="Enter investment duration (years)">
+        <button onclick="calculateSIP()">Calculate SIP</button>
+        <p id="sipResult"></p>
+    </div>
+
+    <!-- Numerology Calculator -->
+    <div id="numerology" class="calculator">
+        <h3>🔮 Numerology Calculator</h3>
+        <input type="text" id="name" placeholder="Enter your name">
+        <input type="number" id="mobile" placeholder="Enter your mobile number">
+        <button onclick="calculateNumerology()">Get Numerology Number</button>
+        <p id="numerologyResult"></p>
+    </div>
+
+    <script>
+        function showCalculator() {
+            document.querySelectorAll('.calculator').forEach(el => el.style.display = 'none');
+            let selected = document.getElementById("calcSelector").value;
+            let selectedElement = document.getElementById(selected);
+            if (selectedElement) selectedElement.style.display = "block";
+        }
+
+        function calculateExpression() {
+            let expression = document.getElementById("expression").value;
+            try {
+                let result = eval(expression);
+                document.getElementById("simpleResult").innerText = "Result: " + result;
+            } catch (error) {
+                document.getElementById("simpleResult").innerText = "Invalid Expression!";
+            }
+        }
+
+        function calculateInterest() {
+            let principal = parseFloat(document.getElementById("principal").value);
+            let rate = parseFloat(document.getElementById("rate").value);
+            let time = parseFloat(document.getElementById("time").value);
+            let interest = (principal * rate * time) / 100;
+            document.getElementById("interestResult").innerText = "Total Interest: " + interest;
+        }
+
+        function calculateFD() {
+            let amount = parseFloat(document.getElementById("fdAmount").value);
+            let rate = parseFloat(document.getElementById("fdRate").value);
+            let time = parseFloat(document.getElementById("fdTime").value);
+            let maturity = amount * Math.pow((1 + rate / 100), time);
+            document.getElementById("fdResult").innerText = "Maturity Amount: " + maturity.toFixed(2);
+        }
+
+        function calculateSIP() {
+            let amount = parseFloat(document.getElementById("sipAmount").value);
+            let rate = parseFloat(document.getElementById("sipRate").value) / 100 / 12;
+            let months = parseFloat(document.getElementById("sipTime").value) * 12;
+            let maturity = amount * ((Math.pow(1 + rate, months) - 1) / rate) * (1 + rate);
+            document.getElementById("sipResult").innerText = "SIP Maturity Amount: " + maturity.toFixed(2);
+        }
+
+        function calculateNumerology() {
+            let name = document.getElementById("name").value.toUpperCase();
+            let sum = [...name].reduce((acc, char) => acc + (char >= 'A' && char <= 'Z' ? char.charCodeAt(0) - 64 : 0), 0);
+            let mobile = [...document.getElementById("mobile").value].reduce((acc, num) => acc + parseInt(num), 0);
+            document.getElementById("numerologyResult").innerText = "Numerology Number: " + ((sum + mobile) % 9 || 9);
+        }
+    </script>
+</body>
+</html>
+
+
